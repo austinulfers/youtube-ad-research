@@ -22,14 +22,14 @@ if __name__ == "__main__":
     # "all_html": driver.find_element_by_xpath('//*[@id="player-overlay:g"]').get_attribute('outerHTML'),
     ad_info = {
         "panel_ad": {
-            "title" : driver.find_element_by_class_name('ytp-flyout-cta-headline').get_attribute('outerHTML').text,
-            "href" : driver.find_element_by_class_name('ytp-flyout-cta-description').get_attribute('outerHTML').text
+            "title" : BeautifulSoup(driver.find_element_by_class_name('ytp-flyout-cta-headline').get_attribute('outerHTML')).getText(),
+            "href" : BeautifulSoup(driver.find_element_by_class_name('ytp-flyout-cta-description').get_attribute('outerHTML')).getText()
         },
 
         "video_ad" : {
             "length_desc" : driver.find_element_by_class_name('ytp-ad-simple-ad-badge').text,
             "video_duration" : driver.find_element_by_class_name('ytp-time-duration').text,
-            "href" : driver.find_element_by_class_name('ytp-ad-button-text').get_attribute('outerHTML').text
+            "href" : BeautifulSoup(driver.find_element_by_class_name('ytp-ad-button-text').get_attribute('outerHTML')).getText()
         }
     }
 
