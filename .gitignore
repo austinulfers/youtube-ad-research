@@ -2,3 +2,4 @@ build/*
 .twb
 .log
 chromedriver.exe
+src/__pycache__/*
