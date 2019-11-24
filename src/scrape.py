@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import *
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 import os
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -18,7 +20,7 @@ def get_metrics(driver, option):
     """Returns dict of metrics of specfied option
     
     Arguments:
-        driver {webdriver} -- Chrome environment
+        driver {webdriver} -- chrome environment
         option {string} -- 'ad', 'user', or 'video'
 
     Raises: 
@@ -34,9 +36,14 @@ def get_metrics(driver, option):
         for tag in reason_tag_list:
             reason_text_list.append(tag.get_attribute("innerHTML"))
 
+        try:
+            panel_ad_title = BeautifulSoup(driver.find_element_by_class_name('ytp-flyout-cta-headline').get_attribute('outerHTML'), features = "lxml").getText()
+        except NoSuchElementException:
+            panel_ad_title = "NULL"
+
         ad_metrics = {
             "panel_ad": {
-                "title" : BeautifulSoup(driver.find_element_by_class_name('ytp-flyout-cta-headline').get_attribute('outerHTML'), features = "lxml").getText(),
+                "title" : panel_ad_title,
                 "href" : BeautifulSoup(driver.find_element_by_class_name('ytp-flyout-cta-description').get_attribute('outerHTML'), features = "lxml").getText()
             },
 
@@ -81,25 +88,58 @@ def get_metrics(driver, option):
     else:
         raise NameError()
 
+def next_video(driver):
+    """shift+n is a hotkey for skipping to the next video
+    
+    Arguments:
+        driver {webdriver} -- chrome environment
+    """
+    ActionChains(driver) \
+        .key_down(Keys.SHIFT) \
+        .key_down('N') \
+        .key_up(Keys.SHIFT) \
+        .key_up('N') \
+        .perform()
+
+def toggle_pause(driver):
+    """k is a hotkey for toggling the pause/play
+    
+    Arguments:
+        driver {webdriver} -- chrome environment
+    """
+    ActionChains(driver) \
+        .key_down('K') \
+        .key_up('K') \
+        .perform()
 
 if __name__ == "__main__":
     driver = get_chromedriver('../tools/chromedriver.exe', '../build/')
     driver.get(get_input(input_fp, 0))
 
+
     driver.implicitly_wait(5)
-
     user_metrics = get_metrics(driver, 'user')
-    
-    ad_metrics = get_metrics(driver, 'ad')
-    video_metrics = get_metrics(driver, 'video')
 
-    all_metrics = {
-        "user_metrics" : user_metrics,
-        "ad_metrics" : ad_metrics,
-        "video_metrics" : video_metrics
-    }
+    completed = False
+    while not completed:
+        try:
+            driver.implicitly_wait(2)
+            ad_metrics = get_metrics(driver, 'ad')
+            video_metrics = get_metrics(driver, 'video')
 
-    output_fp = '../build/' + get_input(input_fp, 1) + '.json'
-    output_fp = os.path.join(cwd, output_fp)
-    with open(output_fp, 'a', encoding = 'utf-8') as f:
-        json.dump(all_metrics, f, ensure_ascii = False, indent=4)
+            all_metrics = {
+                "user_metrics" : user_metrics,
+                "ad_metrics" : ad_metrics,
+                "video_metrics" : video_metrics
+            }
+
+            output_fp = '../build/' + get_input(input_fp, 1) + '.json'
+            output_fp = os.path.join(cwd, output_fp)
+            with open(output_fp, 'a', encoding = 'utf-8') as f:
+                json.dump(all_metrics, f, ensure_ascii = False, indent=4)
+
+            next_video(driver)
+            time.sleep(2)
+        except NoSuchElementException as e:
+            print(e)
+            toggle_pause(driver)
