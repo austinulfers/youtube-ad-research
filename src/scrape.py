@@ -4,8 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import os
 from bs4 import BeautifulSoup
-import pandas as pd
-import numpy as np
 from launch_selenium import get_chromedriver
 from read_input import get_input
 import time
@@ -57,7 +55,7 @@ def get_metrics(driver, option):
                 "ad_reasons": reason_text_list
             }
         except NoSuchElementException as e:
-            print(e)
+            print("No Advertisement")
             ad_metrics = {
                 "panel_ad": {
                     "title" : "NULL",
