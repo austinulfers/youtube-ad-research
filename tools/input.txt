@@ -1,2 +1,3 @@
 YouTube Channel Videos Page | https://www.youtube.com/playlist?list=UUV6KDgJskWaEckne5aPA0aQ&playnext=1&index=1;
-Scrape Output Filename | GrahamStephan;
+Scrape Output Filename | GrahamStephan.json;
+Wrangle Output Filename | GrahamStephan_xls.xlsx;

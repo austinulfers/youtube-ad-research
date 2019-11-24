@@ -148,7 +148,7 @@ if __name__ == "__main__":
                 "video_metrics" : video_metrics
             }
 
-            output_fp = '../build/' + get_input(input_fp, 1) + '.json'
+            output_fp = '../build/' + get_input(input_fp, 1)
             output_fp = os.path.join(cwd, output_fp)
             with open(output_fp, 'a', encoding = 'utf-8') as f:
                 json.dump(all_metrics, f, ensure_ascii = False, indent=4)
