@@ -11,6 +11,7 @@ from json_stacked import decode_stacked
 cwd = os.path.dirname(__file__)
 input_fp = os.path.join(cwd, '../tools/input.txt')
 
+#Turns the sub count description string to int
 def sub_desc_to_int(desc):
     desc_num = desc.replace(' subscribers', '')
     multiplier_char = desc_num[-1]
@@ -27,9 +28,11 @@ def sub_desc_to_int(desc):
         desc_num = int(desc_num)
         return desc_num
 
+#Splits word into an array of characters
 def split(word):
     return [char for char in word]
 
+#Counts the number of video ads a video contains
 def sum_ads(desc):
     desc_arr = split(desc)
     try:
@@ -45,6 +48,7 @@ def sum_ads(desc):
     except ValueError:
         return 0
 
+#Main method
 if __name__ == "__main__":
 
     pd_columns = [
