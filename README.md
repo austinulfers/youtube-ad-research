@@ -18,9 +18,9 @@ With the webscraping technique out of the way, I knew I wanted to webscrape a Yo
 
 To start out, this project isn't fully completed yet. It still has some bugs that are restricting proper results to be shown. However, with the scripts that have been created so far, according to the following image, we can see that comparing these two YouTubers, we see that David's videos are getting served 0 video ads while Graham's are.
 
-<img src="./img/ad_sum_by_user.jpg" alt="Video Ad Sum by User" width="250">
-<img src="./img/num_records_by_user.jpg" alt="Number of Records by User" height="466">
-<img src="./img/percentage_video_ads_by_user.jpg" alt="Number of Records by User" width="250">
+![Video Ad Sum by User](./img/ad_sum_by_user.jpg)
+![Number of Records by User](./img/num_records_by_user.jpg)
+![Number of Records by User](./img/percentage_video_ads_by_user.jpg)
 
 ## Conclusion
 
