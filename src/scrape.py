@@ -14,6 +14,7 @@ import json
 cwd = os.path.dirname(__file__)
 input_fp = os.path.join(cwd, '../tools/input.txt')
 
+#Returns dict of metrics of specified option
 def get_metrics(driver, option):
     """Returns dict of metrics of specfied option
     
@@ -54,8 +55,9 @@ def get_metrics(driver, option):
 
                 "ad_reasons": reason_text_list
             }
+
         except NoSuchElementException as e:
-            print("No Advertisement")
+            print("No Video Advertisement", driver.current_url)
             ad_metrics = {
                 "panel_ad": {
                     "title" : "NULL",
@@ -103,6 +105,7 @@ def get_metrics(driver, option):
     else:
         raise NameError()
 
+#Driver presses shift+n to go to the next video in the playlist
 def next_video(driver):
     """shift+n is a hotkey for skipping to the next video
     
@@ -116,6 +119,7 @@ def next_video(driver):
         .key_up('N') \
         .perform()
 
+#Driver presses space to toggle video pause/play
 def toggle_pause(driver):
     """k is a hotkey for toggling the pause/play
     
@@ -127,6 +131,7 @@ def toggle_pause(driver):
         .key_up('K') \
         .perform()
 
+#Main method
 if __name__ == "__main__":
     driver = get_chromedriver('../tools/chromedriver.exe', '../build/')
     driver.get(get_input(input_fp, 0))
@@ -158,3 +163,4 @@ if __name__ == "__main__":
         except NoSuchElementException as e:
             print(e)
             toggle_pause(driver)
+            driver.close()
